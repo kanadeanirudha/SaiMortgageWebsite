@@ -1,0 +1,574 @@
+﻿@{
+    Layout = null;
+}
+<div class="gdlr-core-pbf-element">
+    <div class="gdlr-core-price-table-item gdlr-core-item-pdlr gdlr-core-item-pdb clearfix d-flex ">
+        <div class="gdlr-core-price-table-column gdlr-core-column-flex">
+            <div class="gdlr-core-price-table ">
+                <div class="gdlr-core-price-table-head">
+                    <h3 class="gdlr-core-price-table-title">Calculate Repayment</h3>
+                </div>
+                <div class="gdlr-core-price-table-content-wrap">
+                    <div class="gdlr-core-price-table-content">
+                        <div class="gdlr-core-price-list-shortcode">
+                            <ul class="calculator-col-first">
+                                <li class="d-flex flex-column  justify-start  input-range">
+                                    <label>Payment Type</label>
+                                    <div class="input-group prefix ">
+                                        <select id="paymentType" class="form-control">
+                                            <option value="weekly">Weekly Payment</option>
+                                            <option value="fortnightly">Fortnightly Payment</option>
+                                            <option value="monthly">Monthly Payment</option>
+                                        </select>
+                                    </div>
+                                </li>
+                                <li class="d-flex flex-column  justify-start  input-range">
+                                    <label>Loan Amount</label>
+                                    <div class="input-group prefix ">
+                                        <span class="input-group-addon">$</span>
+                                        <input type="number" class="form-control" id="loanAmount" value="500000" min="100" max="1000000" placeholder="Enter loan amount">
+                                    </div>
+                                    <div class="rangeslider-container">
+                                        <input class="range" type="range" id="loanAmountSlider" min="100" max="1000000" step="100" value="500000">
+                                    </div>
+                                </li>
+                                <li class="d-flex flex-column justify-start input-range">
+                                    <label>Interest Rate</label>
+                                    <div class="input-group">
+                                        <input class="form-control" type="number" id="interestRate" value="9" min="1" max="20" placeholder="Enter interest rate">
+                                    </div>
+                                    <div class="rangeslider-container">
+                                        <input class="range" type="range" id="interestRateSlider" min="1" max="20" step="0.1" value="9">
+                                    </div>
+                                </li>
+                                <li class="d-flex flex-column  justify-start input-range">
+                                    <label>Loan Tenure</label>
+                                    <div class="input-group">
+                                        <input class="form-control" type="number" id="loanTenure" value="52" min="1" max="1560" placeholder="Enter loan tenure">
+                                    </div>
+                                    <div class="rangeslider-container">
+                                        <input class="range" type="range" id="loanTenureSlider" min="1" step="1" max="1560" value="52">
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="gdlr-core-price-table-column gdlr-core-column-flex">
+            <div class="gdlr-core-price-table">
+                <div class="gdlr-core-price-table-head">
+                    <h3 class="gdlr-core-price-table-title">Your Repayment Details</h3>
+                </div>
+                <div class="gdlr-core-price-table-content-wrap">
+                    <div class="gdlr-core-price-table-content">
+                        <div class="gdlr-core-price-list-shortcode">
+                            <ul class="EMI-details">
+                                <li>
+                                    <label class="item-lbl">Loan Repayment</label>
+                                    <div class="item-value" id="emiResult"></div>
+                                </li>
+                                <li>
+                                    <label class="item-lbl">Total Interest Payable</label>
+                                    <div class="item-value" id="totalInterestResult"></div>
+                                </li>
+                                <li>
+                                    <label class="item-lbl">Total Payment (Principal + Interest)</label>
+                                    <div class="item-value" id="totalPaymentResult"></div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="gdlr-core-price-table-column gdlr-core-column-flex">
+            <div class="gdlr-core-price-table">
+                <div class="gdlr-core-price-table-head">
+                    <h3 class="gdlr-core-price-table-title">Principal vs Interest</h3>
+                </div>
+                <div class="gdlr-core-price-table-content-wrap">
+                    <div class="gdlr-core-price-table-content">
+                        <div class="gdlr-core-price-list-shortcode">
+                            <canvas id="paymentBreakupChart" width="400" height="400"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/emn178/chartjs-plugin-labels/src/chartjs-plugin-labels.js"></script>
+<script>
+    let paymentBreakupChart;
+    document.getElementById('loanAmountSlider').addEventListener('input', function () {
+        document.getElementById('loanAmount').value = this.value;
+        calculateEMI()
+    });
+
+    document.getElementById('interestRateSlider').addEventListener('input', function () {
+        document.getElementById('interestRate').value = this.value;
+        calculateEMI()
+    });
+
+    document.getElementById('loanTenureSlider').addEventListener('input', function () {
+        document.getElementById('loanTenure').value = this.value;
+        calculateEMI()
+    });
+
+
+    document.getElementById('loanAmount').addEventListener('input', function () {
+        document.getElementById('loanAmountSlider').value = this.value;
+        calculateEMI()
+    });
+
+    document.getElementById('interestRate').addEventListener('input', function () {
+        document.getElementById('interestRateSlider').value = this.value;
+        var paymentType = document.getElementById('paymentType').value;
+        calculateEMI()
+    });
+
+    document.getElementById('loanTenure').addEventListener('input', function () {
+        document.getElementById('loanTenureSlider').value = this.value;
+        calculateEMI()
+    });
+
+    document.getElementById('paymentType').addEventListener('change', function () {
+        var loanTenureValue = 0;
+        var paymentType = document.getElementById('paymentType').value;
+        if (paymentType == "weekly") {
+            loanTenureValue = 52;
+        } else if (paymentType == "fortnightly") {
+            loanTenureValue = 15;
+        }
+        else {
+            loanTenureValue = 30;
+        }
+        document.getElementById('loanTenure').value = loanTenureValue;
+        document.getElementById('loanTenure').innerHTML = loanTenureValue;
+        document.getElementById('loanTenureSlider').value = loanTenureValue;
+        document.getElementById('loanTenureSlider').innerHTML = loanTenureValue;
+        calculateEMI()
+    });
+
+    function calculateEMI() {
+        var paymentType = document.getElementById('paymentType').value;
+        if (paymentType == "weekly") {
+            calculateWeeklyEMI();
+        }
+        else if (paymentType == "fortnightly") {
+            calculateFortnightlyEMI();
+        } else {
+            calculateMonthlyEMI();
+        }
+    }
+
+
+    function calculateMonthlyEMI() {
+        const loanAmount = document.getElementById('loanAmount').value;
+        const interestRate = document.getElementById('interestRate').value;
+        const loanTenure = document.getElementById('loanTenure').value;
+
+        const minLoanAmount = 100;
+        const maxLoanAmount = 1000000;
+
+        const minInterestRate = 1;
+        const maxInterestRate = 20;
+
+        const minLoanTenure = 1;
+        const maxLoanTenure = 30;
+
+        if (loanAmount < minLoanAmount || loanAmount > maxLoanAmount) {
+            document.getElementById('emiResult').innerText = `Loan amount must be between ₹${minLoanAmount} and ₹${maxLoanAmount}.`;
+            document.getElementById('totalInterestResult').innerText = '';
+            document.getElementById('totalPaymentResult').innerText = '';
+            document.getElementById('emiTable').getElementsByTagName('tbody')[0].innerHTML = '';
+
+            if (paymentBreakupChart) {
+                paymentBreakupChart.destroy();
+                paymentBreakupChart = null;
+            }
+            return;
+        }
+
+        if (interestRate < minInterestRate || interestRate > maxInterestRate) {
+            document.getElementById('emiResult').innerText = `Interest rate must be between ${minInterestRate}% and ${maxInterestRate}%.`;
+            document.getElementById('totalInterestResult').innerText = '';
+            document.getElementById('totalPaymentResult').innerText = '';
+            document.getElementById('emiTable').getElementsByTagName('tbody')[0].innerHTML = '';
+            if (paymentBreakupChart) {
+                paymentBreakupChart.destroy();
+                paymentBreakupChart = null;
+            }
+            return;
+        }
+
+        if (loanTenure < minLoanTenure || loanTenure > maxLoanTenure) {
+            document.getElementById('emiResult').innerText = `Loan tenure must be between ${minLoanTenure} and ${maxLoanTenure} years.`;
+            document.getElementById('totalInterestResult').innerText = '';
+            document.getElementById('totalPaymentResult').innerText = '';
+            document.getElementById('emiTable').getElementsByTagName('tbody')[0].innerHTML = '';
+            if (paymentBreakupChart) {
+                paymentBreakupChart.destroy();
+                paymentBreakupChart = null;
+            }
+            return;
+        }
+
+        if (loanAmount && interestRate && loanTenure) {
+            const monthlyInterestRate = (interestRate / 100) / 12;
+            const numberOfMonths = loanTenure * 12;
+            const emi = (loanAmount * monthlyInterestRate * Math.pow(1 + monthlyInterestRate, numberOfMonths)) / (Math.pow(1 + monthlyInterestRate, numberOfMonths) - 1);
+            document.getElementById('emiResult').innerText = `$${emi.toFixed(2)}`;
+            let balance = loanAmount;
+            let totalInterest = 0;
+
+            const emiTableBody = document.getElementById('emiTable').getElementsByTagName('tbody')[0];
+            emiTableBody.innerHTML = ''; // Clear previous table rows
+
+            for (let month = 1; month <= numberOfMonths; month++) {
+                const interest = balance * monthlyInterestRate;
+                const principal = emi - interest;
+                balance -= principal;
+                totalInterest += interest;
+                const row = emiTableBody.insertRow();
+                row.insertCell(0).innerText = month;
+                row.insertCell(1).innerText = principal.toFixed(2);
+                row.insertCell(2).innerText = interest.toFixed(2);
+                row.insertCell(3).innerText = emi.toFixed(2);
+                row.insertCell(4).innerText = balance.toFixed(2);
+            }
+
+            const totalPayment = parseFloat(loanAmount) + totalInterest;
+            document.getElementById('totalInterestResult').innerText = `$${totalInterest.toFixed(2)}`;
+            document.getElementById('totalPaymentResult').innerText = `$${totalPayment.toFixed(2)}`;
+            totalInterest = totalInterest.toFixed(2)
+            // Update pie chart
+
+            const ctx = document.getElementById('paymentBreakupChart').getContext('2d');
+
+            if (paymentBreakupChart) {
+                paymentBreakupChart.data.datasets[0].data = [loanAmount, totalInterest];
+                paymentBreakupChart.update();
+            } else {
+                var canvas = document.getElementById('paymentBreakupChart');
+                new Chart(canvas, {
+                    type: 'pie',
+                    data: {
+                        labels: ['Principal Loan Amount', 'Total Interest'],
+                        datasets: [{
+                            data: [loanAmount, totalInterest],
+                            backgroundColor: ['#e0004d', '#36A2EB']
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        plugins: {
+                            labels: {
+                                render: 'value',
+                                fontColor: ['white', 'white'],
+                                precision: 2
+                            }
+                        },
+                    }
+                });
+
+            }
+
+        } else {
+
+            document.getElementById('emiResult').innerText = 'Please fill in all fields.';
+
+            document.getElementById('totalInterestResult').innerText = '';
+
+            document.getElementById('totalPaymentResult').innerText = '';
+
+            document.getElementById('emiTable').getElementsByTagName('tbody')[0].innerHTML = '';
+
+            if (paymentBreakupChart) {
+
+                paymentBreakupChart.destroy();
+
+                paymentBreakupChart = null;
+
+            }
+
+        }
+
+    }
+
+    function calculateWeeklyEMI() {
+        const loanAmount = document.getElementById('loanAmount').value;
+        const interestRate = document.getElementById('interestRate').value;
+        const loanTenure = document.getElementById('loanTenure').value;
+
+        const minLoanAmount = 100;
+        const maxLoanAmount = 1000000;
+
+        const minInterestRate = 1;
+        const maxInterestRate = 20;
+
+        const minLoanTenure = 1;
+        const maxLoanTenure = 1560;
+
+        if (loanAmount < minLoanAmount || loanAmount > maxLoanAmount) {
+            document.getElementById('emiResult').innerText = `Loan amount must be between ₹${minLoanAmount} and ₹${maxLoanAmount}.`;
+            document.getElementById('totalInterestResult').innerText = '';
+            document.getElementById('totalPaymentResult').innerText = '';
+            document.getElementById('emiTable').getElementsByTagName('tbody')[0].innerHTML = '';
+
+            if (paymentBreakupChart) {
+                paymentBreakupChart.destroy();
+                paymentBreakupChart = null;
+            }
+            return;
+        }
+
+        if (interestRate < minInterestRate || interestRate > maxInterestRate) {
+            document.getElementById('emiResult').innerText = `Interest rate must be between ${minInterestRate}% and ${maxInterestRate}%.`;
+            document.getElementById('totalInterestResult').innerText = '';
+            document.getElementById('totalPaymentResult').innerText = '';
+            document.getElementById('emiTable').getElementsByTagName('tbody')[0].innerHTML = '';
+            if (paymentBreakupChart) {
+                paymentBreakupChart.destroy();
+                paymentBreakupChart = null;
+            }
+            return;
+        }
+
+        if (loanTenure < minLoanTenure || loanTenure > maxLoanTenure) {
+            document.getElementById('emiResult').innerText = `Loan tenure must be between ${minLoanTenure} and ${maxLoanTenure} years.`;
+            document.getElementById('totalInterestResult').innerText = '';
+            document.getElementById('totalPaymentResult').innerText = '';
+            document.getElementById('emiTable').getElementsByTagName('tbody')[0].innerHTML = '';
+            if (paymentBreakupChart) {
+                paymentBreakupChart.destroy();
+                paymentBreakupChart = null;
+            }
+            return;
+        }
+
+        if (loanAmount && interestRate && loanTenure) {
+            const weeklyInterestRate = (interestRate / 52) / 100;
+            const numberOfWeeks = loanTenure;
+            const emi = (loanAmount * weeklyInterestRate * Math.pow(1 + weeklyInterestRate, numberOfWeeks)) / (Math.pow(1 + weeklyInterestRate, numberOfWeeks) - 1);
+
+            document.getElementById('emiResult').innerText = `$${emi.toFixed(2)}`;
+            let balance = loanAmount;
+            let totalInterest = 0;
+
+            const emiTableBody = document.getElementById('emiTable').getElementsByTagName('tbody')[0];
+            emiTableBody.innerHTML = ''; // Clear previous table rows
+
+            for (let month = 1; month <= numberOfWeeks; month++) {
+                const interest = balance * weeklyInterestRate;
+                const principal = emi - interest;
+                balance -= principal;
+                totalInterest += interest;
+                const row = emiTableBody.insertRow();
+                row.insertCell(0).innerText = month;
+                row.insertCell(1).innerText = principal.toFixed(2);
+                row.insertCell(2).innerText = interest.toFixed(2);
+                row.insertCell(3).innerText = emi.toFixed(2);
+                row.insertCell(4).innerText = balance.toFixed(2);
+            }
+
+            const totalPayment = parseFloat(loanAmount) + totalInterest;
+            document.getElementById('totalInterestResult').innerText = `$${totalInterest.toFixed(2)}`;
+            document.getElementById('totalPaymentResult').innerText = `$${totalPayment.toFixed(2)}`;
+            totalInterest = totalInterest.toFixed(2)
+            // Update pie chart
+
+            const ctx = document.getElementById('paymentBreakupChart').getContext('2d');
+
+            if (paymentBreakupChart) {
+                paymentBreakupChart.data.datasets[0].data = [loanAmount, totalInterest];
+                paymentBreakupChart.update();
+            } else {
+                var canvas = document.getElementById('paymentBreakupChart');
+                new Chart(canvas, {
+                    type: 'pie',
+                    data: {
+                        labels: ['Principal Loan Amount', 'Total Interest'],
+                        datasets: [{
+                            data: [loanAmount, totalInterest],
+                            backgroundColor: ['#e0004d', '#36A2EB']
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        plugins: {
+                            labels: {
+                                render: 'value',
+                                fontColor: ['white', 'white'],
+                                precision: 2
+                            }
+                        },
+                    }
+                });
+
+            }
+
+        } else {
+
+            document.getElementById('emiResult').innerText = 'Please fill in all fields.';
+
+            document.getElementById('totalInterestResult').innerText = '';
+
+            document.getElementById('totalPaymentResult').innerText = '';
+
+            document.getElementById('emiTable').getElementsByTagName('tbody')[0].innerHTML = '';
+
+            if (paymentBreakupChart) {
+
+                paymentBreakupChart.destroy();
+
+                paymentBreakupChart = null;
+
+            }
+        }
+    }
+
+    function calculateFortnightlyEMI() {
+        const loanAmount = document.getElementById('loanAmount').value;
+        const interestRate = document.getElementById('interestRate').value;
+        const loanTenure = document.getElementById('loanTenure').value;
+
+        const minLoanAmount = 100;
+        const maxLoanAmount = 1000000;
+
+        const minInterestRate = 1;
+        const maxInterestRate = 20;
+
+        const minLoanTenure = 1;
+        const maxLoanTenure = 780;
+
+        if (loanAmount < minLoanAmount || loanAmount > maxLoanAmount) {
+            document.getElementById('emiResult').innerText = `Loan amount must be between ₹${minLoanAmount} and ₹${maxLoanAmount}.`;
+            document.getElementById('totalInterestResult').innerText = '';
+            document.getElementById('totalPaymentResult').innerText = '';
+            document.getElementById('emiTable').getElementsByTagName('tbody')[0].innerHTML = '';
+
+            if (paymentBreakupChart) {
+                paymentBreakupChart.destroy();
+                paymentBreakupChart = null;
+            }
+            return;
+        }
+
+        if (interestRate < minInterestRate || interestRate > maxInterestRate) {
+            document.getElementById('emiResult').innerText = `Interest rate must be between ${minInterestRate}% and ${maxInterestRate}%.`;
+            document.getElementById('totalInterestResult').innerText = '';
+            document.getElementById('totalPaymentResult').innerText = '';
+            document.getElementById('emiTable').getElementsByTagName('tbody')[0].innerHTML = '';
+            if (paymentBreakupChart) {
+                paymentBreakupChart.destroy();
+                paymentBreakupChart = null;
+            }
+            return;
+        }
+
+        if (loanTenure < minLoanTenure || loanTenure > maxLoanTenure) {
+            document.getElementById('emiResult').innerText = `Loan tenure must be between ${minLoanTenure} and ${maxLoanTenure} years.`;
+            document.getElementById('totalInterestResult').innerText = '';
+            document.getElementById('totalPaymentResult').innerText = '';
+            document.getElementById('emiTable').getElementsByTagName('tbody')[0].innerHTML = '';
+            if (paymentBreakupChart) {
+                paymentBreakupChart.destroy();
+                paymentBreakupChart = null;
+            }
+            return;
+        }
+
+        if (loanAmount && interestRate && loanTenure) {
+            const weeklyInterestRate = (interestRate / 26) / 100;
+            const numberOfWeeks = loanTenure;
+            const emi = (loanAmount * weeklyInterestRate * Math.pow(1 + weeklyInterestRate, numberOfWeeks)) / (Math.pow(1 + weeklyInterestRate, numberOfWeeks) - 1);
+
+            document.getElementById('emiResult').innerText = `$${emi.toFixed(2)}`;
+            let balance = loanAmount;
+            let totalInterest = 0;
+
+            const emiTableBody = document.getElementById('emiTable').getElementsByTagName('tbody')[0];
+            emiTableBody.innerHTML = ''; // Clear previous table rows
+
+            for (let month = 1; month <= numberOfWeeks; month++) {
+                const interest = balance * weeklyInterestRate;
+                const principal = emi - interest;
+                balance -= principal;
+                totalInterest += interest;
+                const row = emiTableBody.insertRow();
+                row.insertCell(0).innerText = month;
+                row.insertCell(1).innerText = principal.toFixed(2);
+                row.insertCell(2).innerText = interest.toFixed(2);
+                row.insertCell(3).innerText = emi.toFixed(2);
+                row.insertCell(4).innerText = balance.toFixed(2);
+            }
+
+            const totalPayment = parseFloat(loanAmount) + totalInterest;
+            document.getElementById('totalInterestResult').innerText = `$${totalInterest.toFixed(2)}`;
+            document.getElementById('totalPaymentResult').innerText = `$${totalPayment.toFixed(2)}`;
+            totalInterest = totalInterest.toFixed(2)
+            // Update pie chart
+
+            const ctx = document.getElementById('paymentBreakupChart').getContext('2d');
+
+            if (paymentBreakupChart) {
+                paymentBreakupChart.data.datasets[0].data = [loanAmount, totalInterest];
+                paymentBreakupChart.update();
+            } else {
+                var canvas = document.getElementById('paymentBreakupChart');
+                new Chart(canvas, {
+                    type: 'pie',
+                    data: {
+                        labels: ['Principal Loan Amount', 'Total Interest'],
+                        datasets: [{
+                            data: [loanAmount, totalInterest],
+                            backgroundColor: ['#e0004d', '#36A2EB']
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        plugins: {
+                            labels: {
+                                render: 'value',
+                                fontColor: ['white', 'white'],
+                                precision: 2
+                            }
+                        },
+                    }
+                });
+
+            }
+
+        } else {
+
+            document.getElementById('emiResult').innerText = 'Please fill in all fields.';
+
+            document.getElementById('totalInterestResult').innerText = '';
+
+            document.getElementById('totalPaymentResult').innerText = '';
+
+            document.getElementById('emiTable').getElementsByTagName('tbody')[0].innerHTML = '';
+
+            if (paymentBreakupChart) {
+
+                paymentBreakupChart.destroy();
+
+                paymentBreakupChart = null;
+
+            }
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        calculateEMI();
+    });
+
+</script>

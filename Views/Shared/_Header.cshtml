@@ -1,0 +1,61 @@
+﻿@{
+    Layout = null;
+    string isHomeActive = string.Equals(ViewBag.Active, "home", StringComparison.InvariantCultureIgnoreCase) ? "current-menu-item" : "";
+    string isAboutUsActive = string.Equals(ViewBag.Active, "AboutUs", StringComparison.InvariantCultureIgnoreCase) ? "current-menu-item" : "";
+    string isServicesActive = string.Equals(ViewBag.Active, "OurServices", StringComparison.InvariantCultureIgnoreCase) ? "current-menu-item" : "";
+    string isCalculatorActive = string.Equals(ViewBag.Active, "Calculator", StringComparison.InvariantCultureIgnoreCase) ? "current-menu-item" : "";
+    string isReviewsActive = string.Equals(ViewBag.Active, "Reviews", StringComparison.InvariantCultureIgnoreCase) ? "current-menu-item" : "";
+    string isContactUsActive = string.Equals(ViewBag.Active, "ContactUs", StringComparison.InvariantCultureIgnoreCase) ? "current-menu-item" : "";
+}
+@*<div class="financity-header-background-transparent">*@
+
+    <div class="financity-top-bar">
+        <div class="financity-top-bar-background"></div>
+        <div class="financity-top-bar-container clearfix financity-container ">
+            <div class="financity-top-bar-left financity-item-pdlr">
+                <span class="gdlr-core-dropdown-tab gdlr-core-js clearfix">
+                    <span class="gdlr-core-dropdown-tab-content-wrap"><span class="gdlr-core-dropdown-tab-content gdlr-core-active" data-index="0"> <i class="icon_clock_alt" style="font-size: 17px;color: #2d5fde;margin-right: 10px;"></i> Mon - Sun 09:00 AM-8:00 PM <i class="fa fa-phone" style="font-size: 17px;color: #2d5fde;margin-left: 20px;margin-right: 10px;"></i>022 158 1638 </span><span class="gdlr-core-dropdown-tab-content " data-index="1"> <i class="icon_clock_alt" style="font-size: 17px;color: #2d5fde;margin-right: 10px;"></i> Mon - Sun 09:00 AM-8:00 PM <i class="fa fa-phone" style="font-size: 17px;color: #2d5fde;margin-left: 20px;margin-right: 10px;"></i>+34-354-5468-8 </span></span>
+                </span>
+            </div>
+            <div class="financity-top-bar-right financity-item-pdlr">
+                <div class="financity-top-bar-right-text"><i class="fa fa-envelope-open-o" style="font-size: 17px;color: #2d5fde;margin-left: 20px;margin-right: 14px;"></i>sai.rane@sairanemortgages.com</div><span class="financity-top-bar-divider financity-left-margin"></span>
+                <div class="financity-top-bar-right-social">
+                    <a href="https://www.facebook.com/profile.php?id=61552675483279" target="_blank" class="financity-top-bar-social-icon" title="facebook"><i class="fa fa-facebook"></i><a></a></a>
+                    <!--<a href="#" target="_blank" class="financity-top-bar-social-icon" title="google-plus"><i class="fa fa-google-plus"></i></a><a href="#" target="_blank" class="financity-top-bar-social-icon" title="pinterest"><i class="fa fa-pinterest-p"></i></a><a href="#" target="_blank" class="financity-top-bar-social-icon" title="twitter"><i class="fa fa-twitter"></i></a><a href="#" target="_blank" class="financity-top-bar-social-icon" title="instagram"><i class="fa fa-instagram"></i></a>-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <header class="financity-header-wrap financity-header-style-bar  financity-style-left">
+        <div class="financity-header-background"></div>
+        <div class="financity-navigation-bar-wrap  financity-sticky-navigation financity-sticky-navigation-height financity-style-left  financity-style-fixed">
+            <div class="financity-navigation-background"></div>
+            <div class="financity-navigation-container clearfix  financity-container">
+                <div class="financity-navigation financity-item-mglr clearfix ">
+                    <div class="financity-main-menu" id="financity-main-menu">
+                        <ul id="menu-main-navigation-1" class="sf-menu">
+                            <li class="menu-item financity-normal-menu @isHomeActive">
+                                <a href="/home/index"><i class="fa fa-home"></i>Home</a>
+                            </li>
+                            <li class="menu-item financity-normal-menu @isAboutUsActive">
+                                <a href="/home/aboutus" class="sf-with-ul-pre">About Us</a>
+                            </li>
+                            <li class="menu-item financity-normal-menu @isServicesActive">
+                                <a href="/home/ourservices" class="sf-with-ul-pre">Our Services</a>
+                            </li>
+                            <li class="menu-item financity-normal-menu @isCalculatorActive">
+                                <a class="nav-link" href="/home/calculator">Calculator</a>
+                            </li>
+                            <li class="menu-item financity-normal-menu @isReviewsActive">
+                                <a class="nav-link" href="/home/reviews">Reviews</a>
+                            </li>
+                            <li class="menu-item financity-normal-menu @isContactUsActive">
+                                <a class="nav-link" href="/home/contactus">Contact Us</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+@*</div>*@

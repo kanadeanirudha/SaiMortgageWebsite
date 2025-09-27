@@ -1,0 +1,76 @@
+﻿@Model
+@{
+    ViewBag.Title = "Calculator";
+    string homeActiveClass = "";
+    string personalActiveClass = "";
+    string otherActiveClass = "";
+    if (Model == "home" )
+    {
+        homeActiveClass = "gdlr-core-active";
+    }
+    else if (Model == "personal")
+    {
+        personalActiveClass = "gdlr-core-active";
+    }
+    else if (Model == "other")
+    {
+        otherActiveClass = "gdlr-core-active";
+    }
+}
+<div class="financity-page-title-wrap  financity-style-custom financity-left-align">
+    <div class="financity-header-transparent-substitute"></div>
+    <div class="financity-page-title-overlay"></div>
+    <div class="financity-page-title-container financity-container">
+        <div class="financity-page-title-content financity-item-pdlr">
+            <h1 class="financity-page-title" style="text-align: center;">Calculator</h1>
+        </div>
+    </div>
+</div>
+<div class="gdlr-core-pbf-wrapper calculator-wrapper" style="padding: 90px 0px 40px 0px;">
+    <div class="gdlr-core-pbf-wrapper-content gdlr-core-js ">
+        <div class="gdlr-core-pbf-wrapper-container clearfix gdlr-core-container">
+            <div class="gdlr-core-pbf-column gdlr-core-column-60 gdlr-core-column-first">
+                <div class="gdlr-core-pbf-column-content-margin gdlr-core-js " style="padding: 0px 0px 0px 0px;">
+                    <div class="gdlr-core-pbf-column-content clearfix gdlr-core-js ">
+                        <div class="gdlr-core-pbf-element">
+                            <div class="gdlr-core-tab-item gdlr-core-js gdlr-core-item-pdb  gdlr-core-left-align gdlr-core-tab-style1-horizontal gdlr-core-item-pdlr">
+                                <div class="gdlr-core-tab-item-title-wrap clearfix gdlr-core-title-font">
+                                    <a href="../home/calculator?loanType=home">
+                                        <div class="gdlr-core-tab-item-title @homeActiveClass">Home Loan</div>
+                                    </a>
+                                    <a href="../home/calculator?loanType=personal">
+                                        <div class="gdlr-core-tab-item-title @personalActiveClass ">Personal Loan</div>
+                                    </a>
+                                    <a href="../home/calculator?loanType=other">
+                                        <div class="gdlr-core-tab-item-title @otherActiveClass ">Other Loan</div>
+                                    </a>
+                                </div>
+                                <div class="gdlr-core-tab-item-content-wrap clearfix">
+                                    <div class="gdlr-core-tab-item-content  gdlr-core-active">
+                                        @Html.Partial("~/Views/Home/_Calculator.cshtml")
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="gdlr-core-pbf-wrapper-container clearfix gdlr-core-container" style="display:none !important">
+            <table id="emiTable">
+                <thead>
+                    <tr>
+                        <th>Sr. No</th>
+                        <th>Principal</th>
+                        <th>Interest</th>
+                        <th>Total Payment</th>
+                        <th>Balance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                     Rows will be added here by JavaScript 
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,48 @@
+﻿@{
+    Layout = null;
+    string isHomeActive = string.Equals(ViewBag.Active, "home", StringComparison.InvariantCultureIgnoreCase) ? "current-menu-item" : "";
+    string isAboutUsActive = string.Equals(ViewBag.Active, "AboutUs", StringComparison.InvariantCultureIgnoreCase) ? "current-menu-item" : "";
+    string isServicesActive = string.Equals(ViewBag.Active, "OurServices", StringComparison.InvariantCultureIgnoreCase) ? "current-menu-item" : "";
+    string isCalculatorActive = string.Equals(ViewBag.Active, "Calculator", StringComparison.InvariantCultureIgnoreCase) ? "current-menu-item" : "";
+    string isReviewsActive = string.Equals(ViewBag.Active, "Reviews", StringComparison.InvariantCultureIgnoreCase) ? "current-menu-item" : "";
+    string isContactUsActive = string.Equals(ViewBag.Active, "ContactUs", StringComparison.InvariantCultureIgnoreCase) ? "current-menu-item" : "";
+}
+<div class="financity-mobile-header-wrap">
+    <div class="financity-mobile-header financity-header-background financity-style-slide" id="financity-mobile-header">
+        <div class="financity-mobile-header-container financity-container">
+            <div class="financity-logo  financity-item-pdlr">
+                <div class="financity-logo-inner">
+                    <a href="../home/index"><img src="../Images/sk-logo-2.png" alt="" width="600" height="60"></a>
+                </div>
+            </div>
+            <div class="financity-mobile-menu-right">
+                <div class="financity-main-menu-search" id="financity-mobile-top-search"><i class="fa fa-search"></i></div>
+                <div class="financity-mobile-menu">
+                    <a class="financity-mm-menu-button financity-mobile-menu-button financity-mobile-button-hamburger" href="#financity-mobile-menu"><span></span></a>
+                    <div class="financity-mm-menu-wrap financity-navigation-font" id="financity-mobile-menu" data-slide="right">
+                        <ul id="menu-main-navigation" class="m-menu">
+                            <li class="menu-item menu-item-home @isHomeActive">
+                                <a href="../home/index">Home</a>
+                            </li>
+                            <li class="menu-item @isAboutUsActive">
+                                <a href="../home/aboutus">About Us</a>
+                            </li>
+                            <li class="menu-item @isServicesActive">
+                                <a href="../home/ourservices">Our Services</a>
+                            </li>
+                            <li class="menu-item @isCalculatorActive">
+                                <a href="../home/calculator">Calculator</a>
+                            </li>
+                            <li class="menu-item @isReviewsActive">
+                                <a href="../home/reviews">Reviews</a>
+                            </li>
+                            <li class="menu-item @isContactUsActive">
+                                <a href="../home/contactus">Contact Us</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
