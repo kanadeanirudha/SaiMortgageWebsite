@@ -144,16 +144,8 @@
     <Content Include="Images\default_marker.png" />
     <Content Include="Images\logo.png" />
     <Content Include="Images\page-title-background.jpg" />
-    <Content Include="Images\personnel-1.jpg" />
-    <Content Include="Images\personnel-2.jpg" />
-    <Content Include="Images\personnel-3.jpg" />
-    <Content Include="Images\personnel-4.jpg" />
     <Content Include="Images\preload.gif" />
-    <Content Include="Images\sairanemortgage.jpeg" />
-    <Content Include="Images\SDM-about-us.jpg" />
     <Content Include="Images\shutterstock_417862237.jpg" />
-    <Content Include="Images\sk-logo-2.png" />
-    <Content Include="Images\SKM-8.png" />
     <Content Include="js\isotopefilter.js" />
     <Content Include="js\jquery\jquery-migrate.min.js" />
     <Content Include="js\jquery\jquery.js" />
@@ -737,8 +729,6 @@
     <Content Include="upload\hp3-icon-6.png" />
     <Content Include="upload\hp3-service-4.jpg" />
     <Content Include="upload\hp3-service3-icon-1-1.png" />
-    <Content Include="upload\logo-3.png" />
-    <Content Include="upload\sairanemortgage.jpeg" />
     <Content Include="upload\shutterstock_365392142.jpg" />
     <Content Include="upload\shutterstock_519474688.jpg" />
     <Content Include="upload\slider-2-1.jpg" />
