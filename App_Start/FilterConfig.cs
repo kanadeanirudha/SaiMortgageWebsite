@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace SKMWebsite
+namespace SRMWebsite
 {
     public class FilterConfig
     {

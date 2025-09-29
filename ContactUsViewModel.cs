@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SKMWebsite
+namespace SRMWebsite
 {
     public class ContactUsViewModel
     {

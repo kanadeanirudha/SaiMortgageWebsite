@@ -1,7 +1,7 @@
 ﻿using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace SKMWebsite
+namespace SRMWebsite
 {
     public class RouteConfig
     {

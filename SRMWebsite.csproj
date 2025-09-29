@@ -744,7 +744,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\AboutUs.cshtml" />
     <Content Include="Views\Home\ContactUs.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\page-builder.js" />
@@ -753,15 +752,11 @@
     <Content Include="Scripts\revolution.extension.slideanims.min.js" />
     <Content Include="Scripts\script-core.js" />
     <Content Include="Scripts\script.js" />
-    <Content Include="Views\Home\OurServices.cshtml" />
-    <Content Include="Views\Home\Reviews.cshtml" />
     <Content Include="Views\Home\Calculator.cshtml" />
-    <Content Include="Views\Home\Downloads.cshtml" />
     <Content Include="Views\Shared\_Footer.cshtml" />
     <Content Include="Views\Shared\_Header.cshtml" />
     <Content Include="Views\Shared\_MobileHeader.cshtml" />
     <Content Include="Views\Home\_Calculator.cshtml" />
-    <Content Include="Views\Home\FAQ.cshtml" />
     <Content Include="Views\Home\_AwardLogoSlider.cshtml" />
   </ItemGroup>
   <ItemGroup>

@@ -4,7 +4,7 @@ using System.Net;
 using System;
 using System.Web.Mvc;
 
-namespace SKMWebsite.Controllers
+namespace SRMWebsite.Controllers
 {
     public class HomeController : Controller
     {
